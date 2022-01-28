@@ -47,12 +47,10 @@ function App() {
     for (let j=0; j<state.data[0].length; j++) {
 
       let color  = state.data[i][j]['color']
-      let letter = state.data[i][j]['letter']
+      let letter = state.data[i][j]['letter'].toLowerCase()
 
       // if no letter, then do not filter
       if (!letter) { continue }
-      if (i===0 && j===0) { console.log(i, j, color, letter) }
-
 
       if (color==='blank') { // do nothing 
       } else if (color==='grey') {
@@ -70,7 +68,6 @@ function App() {
 
     }
   }
-  console.log(words_filtered)
 
 
   return (

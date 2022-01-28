@@ -15,7 +15,7 @@ const WordList = (props) => {
   return (
     <div style={wordListStyle}>
       <p>Possible Words</p>
-      <select style={{width: '100%', maxWidth: '100%', textAlign: 'center'}}>
+      <select style={{width: '100%', maxWidth: '100%', textAlign: 'center', fontsize: 30, height: 30, margin: 'auto'}}>
         {props.words.map( (d,i)=><option key={i}>{d}</option>)}
       </select>
     </div>
