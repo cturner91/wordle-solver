@@ -13,7 +13,7 @@ const rowStyle = {
 const CellRow = (props) => {
   return (
     <div style={rowStyle}>
-      {props.values.map( (d,i)=><Cell key={i} value={d} />)}
+      {props.values.map( (d,i)=><Cell key={i} value={d} setValue={props.setValues} row={props.row} column={i} />)}
     </div>
   )
 }

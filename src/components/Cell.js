@@ -34,20 +34,31 @@ const Cell = (props) => {
 
   const [color, setColor] = useState(props.value.color)
   const [letter, setLetter] = useState(props.value.letter)
-  console.log(color)
+
 
   const changeColor = () => {
-    if (color==='blank') setColor('black') 
-    else if (color==='black') setColor('amber') 
-    else if (color==='amber') setColor('green') 
-    else if (color==='green') setColor('blank')
-    else setColor('black')
+    let new_color = ''
+    if (color==='blank') new_color = 'black'
+    else if (color==='black') new_color = 'amber' 
+    else if (color==='amber') new_color = 'green' 
+    else if (color==='green') new_color = 'blank'
+    else new_color = 'black'
+
+    setColor(new_color)
+
+    props.setValue(props.column, props.row, 'color', new_color)
+  }
+
+  const updateLetter = (e) => {
+    let wletter = e.target.value.toUpperCase().slice(-1)
+    setLetter(wletter)
+    props.setValue(props.column, props.row, 'letter', wletter)
   }
   
   return (
     <div style={cellStyle} onClick={changeColor}>
       <input type='text' value={letter} 
-        onChange={(e)=>setLetter(e.target.value.toUpperCase().slice(-1))} 
+        onChange={updateLetter} 
         style={{...inputStyle, backgroundColor: colors[color]}} 
       />
     </div>

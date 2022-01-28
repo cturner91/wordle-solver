@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CellRow from './components/CellRow'
 import WordList from './components/WordList'
-import words from './components/data'
+import { words } from './components/data'
 
 
 const appStyle = {
@@ -36,15 +36,46 @@ const helpStyle = {
 function App() {
 
   const [cells, setCells] = useState([
-    [{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''}],
-    [{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''}],
-    [{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''}],
-    [{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''}],
-    [{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''}],
-    [{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''},{color: '', letter: ''}],
+    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
   ])
+  
 
-  const words = ['I','like','turtles']
+  const updateCell = (column, row, key, value) => {
+    let wdata = cells
+    wdata[row][column][key] = value
+    setCells(wdata)
+  }
+
+  // work out which words are viable, based on the cells
+  let words_filtered = words
+  for (let i=0; i<cells.length; i++) {
+    for (let j=0; j<cells[0].length; j++) {
+
+      let color  = cells[i][j]['color']
+      let letter = cells[i][j]['letter']
+
+      if (color==='blank') { // do nothing 
+      } else if (color==='grey') {
+        // this letter is not in word
+        words_filtered = words_filtered.filter( d=> d.indexOf(letter) < 0)
+
+      } else if (color==='green') {
+        // this letter is in word in this exact position
+        words_filtered = words_filtered.filter( d=> d.indexOf(letter) === j)
+
+      } else if (color==='amber') {
+        // this letter is in word somewhere
+        words_filtered = words_filtered.filter( d=> d.indexOf(letter) >= 0 && d.indexOf(letter) != j)
+      }
+
+    }
+  }
+
 
   return (
     <div style={appStyle}>
@@ -54,9 +85,9 @@ function App() {
       </p>
 
       <div style={gridStyle}>
-        {cells.map( (d,i)=><CellRow key={i} values={d} />)}
+        {cells.map( (d,i)=><CellRow key={i} values={d} setValues={updateCell} row={i} />)}
       </div>
-      <WordList words={words} />
+      <WordList words={words_filtered} />
     </div>
   );
 }
