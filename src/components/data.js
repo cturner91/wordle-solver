@@ -1,3 +1,47 @@
+import { useReducer, createContext } from 'react'
+
+
+const defaultContext = {data: [
+  [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+  [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+  [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+  [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+  [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+  [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+]}
+
+
+export const GlobalContext = createContext(defaultContext)
+
+
+export const GlobalContextProvider = (props) => {
+  
+  const [state, dispatch] = useReducer(GlobalReducer, defaultContext)
+
+  return (
+    <GlobalContext.Provider value={{state, dispatch}}>
+      {props.children}
+    </GlobalContext.Provider>
+  )
+}
+
+
+export const GlobalReducer = (state, action) => {
+  switch (action.type) {
+
+    // actions for loading from existing data / creating new game id
+    case 'UPDATE_CELL':
+      state['data'][action.row][action.column][action.key] = action.value
+      return {...state}
+
+    default:
+      return {...state}
+  }
+}    
+
+
+
+
 export const words = [
 'aback',
 'abase',

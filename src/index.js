@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { GlobalContextProvider } from './components/data';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <GlobalContextProvider>
     <App />
-  </React.StrictMode>,
+  </GlobalContextProvider>,
   document.getElementById('root')
 );
 

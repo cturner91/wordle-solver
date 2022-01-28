@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { GlobalContext } from './data'
 
 
 const inputStyle = {
@@ -25,34 +26,35 @@ const cellStyle = {
 
 const colors = {
   blank: 'white',
-  black: 'grey',
+  grey: 'grey',
   amber: 'darkorange',
   green: 'forestgreen',
 }
 
 const Cell = (props) => {
 
-  const [color, setColor] = useState(props.value.color)
-  const [letter, setLetter] = useState(props.value.letter)
+  const {dispatch} = useContext(GlobalContext)
+
+  const [color, setColor] = useState('blank')
+  const [letter, setLetter] = useState('')
 
 
   const changeColor = () => {
     let new_color = ''
-    if (color==='blank') new_color = 'black'
-    else if (color==='black') new_color = 'amber' 
+    if (color==='blank') new_color = 'grey'
+    else if (color==='grey') new_color = 'amber' 
     else if (color==='amber') new_color = 'green' 
     else if (color==='green') new_color = 'blank'
-    else new_color = 'black'
+    else new_color = 'blank'
 
     setColor(new_color)
-
-    props.setValue(props.column, props.row, 'color', new_color)
+    dispatch({type: 'UPDATE_CELL', column: props.column, row: props.row, key: 'color', value: new_color})
   }
 
   const updateLetter = (e) => {
     let wletter = e.target.value.toUpperCase().slice(-1)
     setLetter(wletter)
-    props.setValue(props.column, props.row, 'letter', wletter)
+    dispatch({type: 'UPDATE_CELL', column: props.column, row: props.row, key: 'letter', value: wletter})
   }
   
   return (

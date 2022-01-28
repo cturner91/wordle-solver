@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import CellRow from './components/CellRow'
 import WordList from './components/WordList'
-import { words } from './components/data'
+import { GlobalContext, GlobalContextProvider, words } from './components/data'
 
 
 const appStyle = {
@@ -35,29 +35,24 @@ const helpStyle = {
 
 function App() {
 
-  const [cells, setCells] = useState([
-    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
-    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
-    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
-    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
-    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
-    [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
-  ])
-  
+  const {state, dispatch} = useContext(GlobalContext)  
 
   const updateCell = (column, row, key, value) => {
-    let wdata = cells
-    wdata[row][column][key] = value
-    setCells(wdata)
+    dispatch({row, column, key, value})
   }
 
   // work out which words are viable, based on the cells
   let words_filtered = words
-  for (let i=0; i<cells.length; i++) {
-    for (let j=0; j<cells[0].length; j++) {
+  for (let i=0; i<state.data.length; i++) {
+    for (let j=0; j<state.data[0].length; j++) {
 
-      let color  = cells[i][j]['color']
-      let letter = cells[i][j]['letter']
+      let color  = state.data[i][j]['color']
+      let letter = state.data[i][j]['letter']
+
+      // if no letter, then do not filter
+      if (!letter) { continue }
+      if (i===0 && j===0) { console.log(i, j, color, letter) }
+
 
       if (color==='blank') { // do nothing 
       } else if (color==='grey') {
@@ -75,6 +70,7 @@ function App() {
 
     }
   }
+  console.log(words_filtered)
 
 
   return (
@@ -85,7 +81,7 @@ function App() {
       </p>
 
       <div style={gridStyle}>
-        {cells.map( (d,i)=><CellRow key={i} values={d} setValues={updateCell} row={i} />)}
+        {state.data.map( (d,i)=><CellRow key={i} values={d} setValues={updateCell} row={i} />)}
       </div>
       <WordList words={words_filtered} />
     </div>
