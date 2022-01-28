@@ -35,8 +35,9 @@ const Cell = (props) => {
 
   const {state, dispatch} = useContext(GlobalContext)
 
-  const [color, setColor] = useState('blank')
-  const [letter, setLetter] = useState('')
+  // const [color, setColor] = useState()
+  const color = state.data[props.row][props.column]['color']
+  const letter = state.data[props.row][props.column]['letter']
 
 
   const changeColor = () => {
@@ -47,13 +48,13 @@ const Cell = (props) => {
     else if (color==='green') new_color = 'blank'
     else new_color = 'blank'
 
-    setColor(new_color)
+    // setColor(new_color)
     dispatch({type: 'UPDATE_CELL', column: props.column, row: props.row, key: 'color', value: new_color})
   }
 
   const updateLetter = (e) => {
     let wletter = e.target.value.toUpperCase().slice(-1)
-    setLetter(wletter)
+    // setLetter(wletter)
     dispatch({type: 'UPDATE_CELL', column: props.column, row: props.row, key: 'letter', value: wletter})
 
     const [next_row, next_column] = util_get_next_input(props.row, props.column, state.data[0].length)

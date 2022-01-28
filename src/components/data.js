@@ -1,7 +1,7 @@
 import { useReducer, createContext } from 'react'
 
 
-const defaultContext = {currentRow: 0, currentColumn: 0,
+export const defaultContext = {currentRow: 0, currentColumn: 0,
   data: [
   [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
   [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
@@ -45,6 +45,18 @@ export const GlobalReducer = (state, action) => {
     case 'UPDATE_CELL':
       state['data'][action.row][action.column][action.key] = action.value
       return {...state}
+    
+      case 'RESET_DATA':
+        const reset_data = {currentRow: 0, currentColumn: 0,
+          data: [
+          [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+          [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+          [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+          [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+          [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+          [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
+        ]}
+        return {...reset_data}
   
     default:
       return {...state}

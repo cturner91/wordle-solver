@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import CellRow from './components/CellRow'
 import WordList from './components/WordList'
-import { GlobalContext, words } from './components/data'
+import { defaultContext, GlobalContext, words } from './components/data'
 
 
 const appStyle = {
@@ -32,6 +32,14 @@ const helpStyle = {
   textAlign: 'center',
 }
 
+const buttonStyle = {
+  margin: 'auto',
+  marginBottom: 40,
+  marginTop: 40,
+  padding: 10,
+  fontSize: 20,
+  borderRadius: 5,
+}
 
 function App() {
 
@@ -69,6 +77,10 @@ function App() {
     }
   }
 
+  const reset_data = () => {
+    dispatch({type: 'RESET_DATA', defaultContext: defaultContext})
+  }
+
 
   return (
     <div style={appStyle}>
@@ -81,6 +93,9 @@ function App() {
         {state.data.map( (d,i)=><CellRow key={i} values={d} setValues={updateCell} row={i} />)}
       </div>
       <WordList words={words_filtered} />
+      <button style={buttonStyle} onClick={reset_data}>
+        Reset
+      </button>
     </div>
   );
 }
