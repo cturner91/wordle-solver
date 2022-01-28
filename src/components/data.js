@@ -27,6 +27,17 @@ export const GlobalContextProvider = (props) => {
 }
 
 
+export const util_get_next_input = (row, column, columns_length) => {
+  column += 1
+  if (column >= columns_length) {
+    row += 1
+    column = 0
+  }
+  return [row, column]
+}
+
+
+
 export const GlobalReducer = (state, action) => {
   switch (action.type) {
 
@@ -34,16 +45,6 @@ export const GlobalReducer = (state, action) => {
     case 'UPDATE_CELL':
       state['data'][action.row][action.column][action.key] = action.value
       return {...state}
-
-    case 'INC_CELL':
-      let row = action.row, column = action.column
-      column += 1
-      if (column >= state.data[0].length) {
-        row += 1
-        column = 0
-      }
-      console.log(row, column)
-      return {...state, currentRow: row, currentColumn: column}
   
     default:
       return {...state}

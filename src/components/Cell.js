@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { GlobalContext } from './data'
+import { GlobalContext, util_get_next_input } from './data'
 
 
 const inputStyle = {
@@ -32,7 +32,6 @@ const colors = {
 }
 
 const Cell = (props) => {
-  console.log('cell')
 
   const {state, dispatch} = useContext(GlobalContext)
 
@@ -56,16 +55,21 @@ const Cell = (props) => {
     let wletter = e.target.value.toUpperCase().slice(-1)
     setLetter(wletter)
     dispatch({type: 'UPDATE_CELL', column: props.column, row: props.row, key: 'letter', value: wletter})
-    dispatch({type: 'INC_CELL', row: props.row, column: props.column})
+
+    const [next_row, next_column] = util_get_next_input(props.row, props.column, state.data[0].length)
+    const nextInput = document.querySelector(`input[name='${next_row}${next_column}']`)
+    nextInput.focus()
   }
+
   
   return (
     <div style={cellStyle} onClick={changeColor}>
       <input type='text' value={letter} 
+        name={String(props.row)+String(props.column)}
         onChange={updateLetter} 
         style={{...inputStyle, backgroundColor: colors[color]}} 
-        autoFocus={state.currentRow===props.row && state.currentColumn===props.column}
       />
+      {/* <span>{props.shouldFocus ? 'H' : ''}</span> */}
     </div>
   )
 }

@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import CellRow from './components/CellRow'
 import WordList from './components/WordList'
-import { GlobalContext, GlobalContextProvider, words } from './components/data'
+import { GlobalContext, words } from './components/data'
 
 
 const appStyle = {
@@ -63,7 +63,7 @@ function App() {
 
       } else if (color==='amber') {
         // this letter is in word somewhere
-        words_filtered = words_filtered.filter( d=> d.indexOf(letter) >= 0 && d.indexOf(letter) != j)
+        words_filtered = words_filtered.filter( d=> d.indexOf(letter) >= 0 && d.indexOf(letter) !== j)
       }
 
     }
