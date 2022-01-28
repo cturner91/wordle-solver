@@ -7,15 +7,29 @@ const wordListStyle = {
     maxWidth: 200, 
     width: '100%', 
     margin: 'auto', 
-    marginTop: 30
+    marginTop: 10,
 }
 
+
+const inputStyle = {
+  width: '100%', 
+  maxWidth: '100%', 
+  textAlign: 'center', 
+  fontsize: 30, 
+  height: 30, 
+  margin: 'auto',
+  backgroundColor: 'white',
+  borderWidth: 2,
+  borderColor: 'black',
+  borderRadius: 10,
+  paddingLeft: 20,
+}
 
 const WordList = (props) => {
   return (
     <div style={wordListStyle}>
-      <p>Possible Words</p>
-      <select style={{width: '100%', maxWidth: '100%', textAlign: 'center', fontsize: 30, height: 30, margin: 'auto'}}>
+      <p style={{marginBottom: 10}}>Possible Words</p>
+      <select style={inputStyle}>
         {props.words.map( (d,i)=><option key={i}>{d}</option>)}
       </select>
     </div>

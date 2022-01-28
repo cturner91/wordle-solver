@@ -32,8 +32,9 @@ const colors = {
 }
 
 const Cell = (props) => {
+  console.log('cell')
 
-  const {dispatch} = useContext(GlobalContext)
+  const {state, dispatch} = useContext(GlobalContext)
 
   const [color, setColor] = useState('blank')
   const [letter, setLetter] = useState('')
@@ -55,6 +56,7 @@ const Cell = (props) => {
     let wletter = e.target.value.toUpperCase().slice(-1)
     setLetter(wletter)
     dispatch({type: 'UPDATE_CELL', column: props.column, row: props.row, key: 'letter', value: wletter})
+    dispatch({type: 'INC_CELL', row: props.row, column: props.column})
   }
   
   return (
@@ -62,6 +64,7 @@ const Cell = (props) => {
       <input type='text' value={letter} 
         onChange={updateLetter} 
         style={{...inputStyle, backgroundColor: colors[color]}} 
+        autoFocus={state.currentRow===props.row && state.currentColumn===props.column}
       />
     </div>
   )

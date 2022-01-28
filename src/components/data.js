@@ -1,7 +1,8 @@
 import { useReducer, createContext } from 'react'
 
 
-const defaultContext = {data: [
+const defaultContext = {currentRow: 0, currentColumn: 0,
+  data: [
   [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
   [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
   [{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''},{color: 'blank', letter: ''}],
@@ -34,6 +35,16 @@ export const GlobalReducer = (state, action) => {
       state['data'][action.row][action.column][action.key] = action.value
       return {...state}
 
+    case 'INC_CELL':
+      let row = action.row, column = action.column
+      column += 1
+      if (column >= state.data[0].length) {
+        row += 1
+        column = 0
+      }
+      console.log(row, column)
+      return {...state, currentRow: row, currentColumn: column}
+  
     default:
       return {...state}
   }

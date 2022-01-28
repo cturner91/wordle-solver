@@ -1,4 +1,5 @@
 {
+  "homepage": "https://ctsoftware.co.uk/wordle-solver",
   "name": "wordle-solver",
   "version": "0.1.0",
   "private": true,
