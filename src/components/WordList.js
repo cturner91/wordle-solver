@@ -28,9 +28,9 @@ const inputStyle = {
 const WordList = (props) => {
   return (
     <div style={wordListStyle}>
-      <p style={{marginBottom: 10}}>Possible Words</p>
+      <p style={{marginBottom: 10}}>{props.words.length === 1 ? '1 Possible Word' : props.words.length+' Possible Words'}</p>
       <select style={inputStyle}>
-        {props.words.map( (d,i)=><option key={i}>{d}</option>)}
+        {props.words.map( (d,i)=><option key={i}>{d.toUpperCase()}</option>)}
       </select>
     </div>
   )
