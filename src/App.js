@@ -41,6 +41,20 @@ const buttonStyle = {
   borderRadius: 5,
 }
 
+
+  // helper function that returns all the indexes of a letter in a word
+  // necessary in case a word has duplicated letters e.g. ALPHA. If final A is green, ALPHA.indexOf(A) === 0 -> gets filtered out
+  function get_letter_indexes(letter, word) {
+    letter = letter.toLowerCase()
+    word = word.toLowerCase()
+    let idxs = []
+    for (let i=0; i<word.length; i++) {
+      if (word[i]===letter) idxs.push(i)
+    }
+    return idxs
+  }
+
+
 function App() {
 
   const {state, dispatch} = useContext(GlobalContext)  
@@ -67,7 +81,15 @@ function App() {
 
       } else if (color==='green') {
         // this letter is in word in this exact position
-        words_filtered = words_filtered.filter( d=> d.indexOf(letter) === j)
+        // note: letter could be duplicated within word e.g. ALPHA. Therefore, can't just use indexOf, which will only reutnr the index of the FIRST time it is found
+        words_filtered = words_filtered.filter( d=> {
+          const idxs = get_letter_indexes(letter, d)
+          if (idxs.length > 0) {
+            if (idxs.indexOf(j) >= 0) return true
+            return false
+          }
+          return false
+        })
 
       } else if (color==='amber') {
         // this letter is in word somewhere
