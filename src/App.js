@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import CellRow from './components/CellRow'
 import WordList from './components/WordList'
 import { defaultContext, GlobalContext, words } from './components/data'
@@ -42,29 +42,31 @@ const buttonStyle = {
 }
 
 
-  // helper function that returns all the indexes of a letter in a word
-  // necessary in case a word has duplicated letters e.g. ALPHA. If final A is green, ALPHA.indexOf(A) === 0 -> gets filtered out
-  function get_letter_indexes(letter, word) {
-    letter = letter.toLowerCase()
-    word = word.toLowerCase()
-    let idxs = []
-    for (let i=0; i<word.length; i++) {
-      if (word[i]===letter) idxs.push(i)
-    }
-    return idxs
+// helper function that returns all the indexes of a letter in a word
+// necessary in case a word has duplicated letters e.g. ALPHA. If final A is green, ALPHA.indexOf(A) === 0 -> gets filtered out
+function get_letter_indexes(letter, word) {
+  letter = letter.toLowerCase()
+  word = word.toLowerCase()
+  let idxs = []
+  for (let i=0; i<word.length; i++) {
+    if (word[i]===letter) idxs.push(i)
   }
+  return idxs
+}
 
 
 function App() {
 
   const {state, dispatch} = useContext(GlobalContext)  
 
+  const [wordList, setWordList] = useState('wordle')
+
   const updateCell = (column, row, key, value) => {
     dispatch({row, column, key, value})
   }
 
   // work out which words are viable, based on the cells
-  let words_filtered = words
+  let words_filtered = words[wordList]
   for (let i=0; i<state.data.length; i++) {
     for (let j=0; j<state.data[0].length; j++) {
 
@@ -118,6 +120,12 @@ function App() {
       <button style={buttonStyle} onClick={reset_data}>
         Reset
       </button>
+
+      <span>Select word list:</span>
+      <select onChange={(e)=>setWordList(e.target.value)} style={{marginBottom: 50}}>
+        <option value='wordle'>Wordle Official</option>
+        <option value='octokatherine'>octokatherine/word-master</option>
+      </select>
     </div>
   );
 }
