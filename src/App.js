@@ -78,8 +78,24 @@ function App() {
 
       if (color==='blank') { // do nothing 
       } else if (color==='grey') {
+
+        // annoying bug from Wordle itself. TENSE reported the first E grey but the last E green (the word was THOSE). So grey doesn't actually mean 'not in the word at all
+        // implement another check - if this letter has been reported as amber or green elsewhere on this line, then don't do anything
+        let should_filter = true
+        for (let k=0; k<state.data[0].length; k++) {
+          if (k==j) continue // don't check against itself
+          let color2  = state.data[i][k]['color']
+          let letter2 = state.data[i][k]['letter'].toLowerCase()
+          if (letter2 && letter2 === letter && ['green','amber'].indexOf(color2.toLowerCase()) >= 0) {
+            should_filter = false
+            break
+          }
+        }
+
         // this letter is not in word
-        words_filtered = words_filtered.filter( d=> d.indexOf(letter) < 0)
+        if (should_filter) {
+          words_filtered = words_filtered.filter( d=> d.indexOf(letter) < 0)
+        }
 
       } else if (color==='green') {
         // this letter is in word in this exact position
